@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       get '/profile', to: 'users#profile'
       resources :auth, only: [:create]
       resources :transactions
+      post '/authlogin', to: 'plaid#authlogin'
+      get '/transactions', to: 'plaid#transactions'
     end
   end
 
