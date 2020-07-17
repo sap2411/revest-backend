@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-u = User.create(email: 'email@email.com', password_digest: 'Password', first_name: "Steven", last_name: "Parsons", income: 3000.0, age: 23)
+u = User.create(email: 'email@email.com', password: 'Password', first_name: "Steven", last_name: "Parsons", income: 3000.0, age: 23)
 
 
 home = Category.create(name: "Home", min: 400.0, max: 5000.0, percentage: 0.30, tags: "Home Rent House Apartment Mortgage Utilities Utility")
@@ -24,8 +24,8 @@ expensesb = Budget.create(user_id: 1, amount: 350.0, category_id: 5)
 material_goodsb = Budget.create(user_id: 1, amount: 100.0, category_id: 6)
 miscb = Budget.create(user_id: 1, amount: 100.0, category_id: 7)
 
-th = Transaction.create(amount:1750 , date: "2001", name: "Rent", iso_currency_code: "USD", account_id: 1234, plaid_id: 1234, category_id: 1, user_id:1)
-tb = Transaction.create(amount:50 , date: "2001", name: "Utility", iso_currency_code: "USD", account_id: 1234, plaid_id: 1234, category_id: 1, user_id:1)
+# th = Transaction.create(amount:1750 , date: "2001", name: "Rent", iso_currency_code: "USD", account_id: 1234, plaid_id: 1234, category_id: 1, user_id:1)
+# tb = Transaction.create(amount:50 , date: "2001", name: "Utility", iso_currency_code: "USD", account_id: 1234, plaid_id: 1234, category_id: 1, user_id:1)
 
 
 
