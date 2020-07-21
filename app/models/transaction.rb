@@ -3,38 +3,28 @@ require 'plaid'
 require 'date'
 
 class Transaction < ApplicationRecord
-  belongs_to :user
-  belongs_to :category
+  belongs_to :budget
 
-  attr_reader :id, :name, :amount, :iso_currency_code, :category_id,
-              :type, :date, :account_id
-
-  def initialize(transaction_data = {})
-    @id = transaction_data['transaction_id']
-    @name = transaction_data['name']
-    @amount = transaction_data['amount']
-    @iso_currency_code = transaction_data['iso_currency_code']
-    @category_id = transaction_data['category_id']
-    @type = transaction_data['type']
-    @date = Date.parse(transaction_data['date'])
-    @account_id = transaction_data['account_id']
-  end
-
-
-  def self.all(token)
+  def self.fetch_and_build(token, user)
     Plaid.fetch(token).map do |transaction|
-      initialized_transaction = new(transaction)
-      initialized_transaction.set_recurrency(token)
+      matchingCat = []
+      correctTranCat = nil
+      transaction['category'].each {|tranCat| 
+          result = user.budgets.find {|budget|
+            budget.category[:tags].include? tranCat
+          }
+          if result != nil
+            matchingCat << [result, tranCat]
+          end
+      }
+      if matchingCat.empty?
+          matchingCat = [[Category.all.last, "misc"]]
+      end
+      # transaction now has matchingCat, an array of matching budgets
+      tran = {amount: transaction['amount'], name: transaction['name'], iso_currency_code: transaction['iso_currency_code'], date: Date.parse(transaction['date']), account_id: transaction['account_id'], cat_num: transaction['category_id'], transaction_type: matchingCat.last[1], budget_id: matchingCat.last[0].id}
+      byebug
+      initialized_transaction = self.create(tran)
       initialized_transaction
     end
   end
-
-  def self.find(token, id)
-    all(token).select { |transaction| transaction.id == id }.first
-  end
-
-  def self.find_by_ids(token, ids)
-    all(token).select { |transaction| ids.include?(transaction.id) }
-  end
-
 end

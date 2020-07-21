@@ -1,7 +1,6 @@
 class User < ApplicationRecord
-    has_many :transactions
     has_many :budgets
-    has_many :categories, through: :transactions
+    has_many :transactions, through: :budgets
     has_many :categories, through: :budgets
     has_secure_password
     validates :email, uniqueness: { case_sensitive: false }
@@ -12,5 +11,26 @@ class User < ApplicationRecord
 
     def name
         `#{self.first_name} #{self.last_name}`
+    end
+
+    def buildBudgets
+        budgets = self.calculate_budgets
+        inc = 0;
+        budgets.each do |budget|
+            Budget.create(user_id: self.id, category_id: (inc+1), amount: budget)
+            inc+=1
+        end
+    end
+
+    def calculate_budgets
+        Category.all.map {|cat|
+            budget = self.income * cat.percentage
+            if budget < cat.min
+                budget = cat.min
+            elsif budget > cat.max
+                budget = cat.max
+            end
+            budget
+        }
     end
 end

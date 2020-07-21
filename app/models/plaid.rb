@@ -4,10 +4,12 @@ module Plaid
 
   module_function
   def default_client
-    @default_client ||= Plaid::Client.new(env: :sandbox,
+    Plaid::Client.new(
+      env: :sandbox,
       client_id: ENV["PLAID_CLIENT_ID"],
       secret: ENV["PLAID_SECRET"],
-      public_key: ENV["PLAID_PUBLIC_KEY"])
+      public_key: ENV["PLAID_PUBLIC_KEY"]
+    )
   end
 
   def self.generate_access_token(public_token)
@@ -36,9 +38,6 @@ module Plaid
                                                        offset: transactions.length)
         transactions += transaction_response.transactions
       end
-
-      # CacheService::Plaid.set_transactions_chunk_cache(access_token, start_date, last_date, transactions)
-
       transactions
     end
 

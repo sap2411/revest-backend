@@ -40,14 +40,13 @@ ActiveRecord::Schema.define(version: 2020_07_16_184146) do
     t.datetime "date"
     t.string "name"
     t.string "iso_currency_code"
-    t.integer "account_id"
-    t.string "plaid_id"
-    t.bigint "category_id"
-    t.bigint "user_id", null: false
+    t.string "account_id"
+    t.string "cat_num"
+    t.string "transaction_type"
+    t.bigint "budget_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_transactions_on_category_id"
-    t.index ["user_id"], name: "index_transactions_on_user_id"
+    t.index ["budget_id"], name: "index_transactions_on_budget_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -63,6 +62,5 @@ ActiveRecord::Schema.define(version: 2020_07_16_184146) do
 
   add_foreign_key "budgets", "categories"
   add_foreign_key "budgets", "users"
-  add_foreign_key "transactions", "categories"
-  add_foreign_key "transactions", "users"
+  add_foreign_key "transactions", "budgets"
 end
