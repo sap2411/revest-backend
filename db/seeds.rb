@@ -9,7 +9,7 @@ u = User.create(email: 'email@email.com', password: 'Password', first_name: "Ste
 
 
 home = Category.create(name: "Home", min: 400.0, max: 5000.0, percentage: 0.31, tags: "Home Rent House Mortgage Utilities")
-food = Category.create(name: "Food", min: 150.0, max: 700.0, percentage: 0.12, tags: "Food Supermarkets and Groceries")
+food = Category.create(name: "Food", min: 150.0, max: 700.0, percentage: 0.12, tags: "Food and Drink Supermarkets and Groceries")
 insurance = Category.create(name: "Health and Insurance", min: 0.0, max: 1000.0, percentage: 0.10, tags: "Insurance Medical Health")
 transport = Category.create(name: "Transportation", min: 0.0, max: 1000.0, percentage: 0.10, tags: "Public Transportation Services Airlines and Aviation Services Vehicle Gas Travel Service")
 expenses = Category.create(name: "Subscriptions and Expenses", min: 0.0, max: 2000.0, percentage: 0.7, tags: "Recurring Recreation Subscription Donations Telecommunication Services")
