@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
     def calculate_budgets
         Category.all.map {|cat|
-            budget = self.income * cat.percentage
+            budget = (self.income * cat.percentage).round
             if budget < cat.min
                 budget = cat.min
             elsif budget > cat.max
