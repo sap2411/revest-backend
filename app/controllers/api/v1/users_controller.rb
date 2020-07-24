@@ -2,6 +2,7 @@ class Api::V1::UsersController < ApplicationController
     skip_before_action :authorized, only: [:create]
  
     def profile
+      
       options = {
         include: [:budgets, :transactions]
       }
@@ -15,7 +16,7 @@ class Api::V1::UsersController < ApplicationController
         @token = encode_token({ user_id: @user.id })
         render json: { user: UserSerializer.new(@user), jwt: @token, budgets: @user.budgets }, status: :created
       else
-        render json: { error: 'failed to create user' }, status: :not_acceptable
+        render json: { error: 'failed to create user:' }, status: :not_acceptable
       end
     end
  

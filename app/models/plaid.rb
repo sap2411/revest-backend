@@ -5,9 +5,9 @@ module Plaid
   module_function
   def default_client
     Plaid::Client.new(
-      env: :sandbox,
+      env: :development,
       client_id: ENV["PLAID_CLIENT_ID"],
-      secret: ENV["PLAID_SECRET"],
+      secret: ENV["PLAID_DEV_SECRET"],
       public_key: ENV["PLAID_PUBLIC_KEY"]
     )
   end
@@ -17,37 +17,36 @@ module Plaid
     exchange_token_response['access_token']
   end
 
-  # module Transactions
-    MAX_NUMBER_DAYS = 31
 
-    # module_function
+  MAX_NUMBER_DAYS = 31
 
-    def fetch(access_token, start_date = Date.today, last_date = Date.today - MAX_NUMBER_DAYS)
-      fetch_plaid(access_token, start_date, last_date)
+
+  def fetch(access_token, start_date = Date.today, last_date = (Date.today - MAX_NUMBER_DAYS))
+    fetch_plaid(access_token, start_date, last_date)
+  end
+
+
+  def fetch_plaid(access_token, start_date, last_date)
+    transaction_response = client.transactions.get(access_token, last_date, start_date)
+    transactions = transaction_response.transactions
+
+    while transactions.length < transaction_response['total_transactions']
+      transaction_response = client.transactions.get(access_token,
+                                                      last_date,
+                                                      start_date,
+                                                      offset: transactions.length)
+      transactions += transaction_response.transactions
     end
+    transactions
+  end
 
+  def fetch_by_dates_month(access_token, date)
+    beginning_of_month = Date.new(date.year, date.month, 1)
+    end_of_month = Date.new(date.year, date.month, -1)
+    fetch(access_token, end_of_month, beginning_of_month)
+  end
 
-    def fetch_plaid(access_token, start_date, last_date)
-      transaction_response = client.transactions.get(access_token, last_date, start_date)
-      transactions = transaction_response.transactions
-
-      while transactions.length < transaction_response['total_transactions']
-        transaction_response = client.transactions.get(access_token,
-                                                       last_date,
-                                                       start_date,
-                                                       offset: transactions.length)
-        transactions += transaction_response.transactions
-      end
-      transactions
-    end
-
-    def fetch_by_dates_month(access_token, date)
-      beginning_of_month = Date.new(date.year, date.month, 1)
-      end_of_month = Date.new(date.year, date.month, -1)
-      fetch(access_token, end_of_month, beginning_of_month)
-    end
-
-    def client
-      @client ||= self.default_client
-    end
+  def client
+    @client ||= self.default_client
+  end
 end 
