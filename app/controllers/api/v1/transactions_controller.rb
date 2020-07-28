@@ -6,11 +6,27 @@ class Api::V1::TransactionsController < ApplicationController
             include: [:budget]
           }
           render json: transactions.to_json(:include => {
-            :budget => {:only => [:id, :amount, :webiste]},
+            :budget => {:only => [:id, :amount]},
           }, :except => [:updated_at])
         else
           render json: {errors: "error getting user transactions"}, status: :not_acceptable
         end
         
+    end
+
+    def update
+      transaction = Transaction.find(params[:id])
+      transaction.update(transaction_params)
+      if transaction.valid?
+          render json: TransactionSerializer.new(transaction)
+      else
+          render json: {errors: transaction.errors.full_messages}
+      end
+    end
+  
+    private
+   
+    def transaction_params
+      params.require(:transaction).permit(:budget_id)
     end
 end

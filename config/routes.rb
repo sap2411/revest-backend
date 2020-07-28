@@ -6,11 +6,11 @@ Rails.application.routes.draw do
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'
       resources :auth, only: [:create]
-      resources :transactions, only: [:index]
+      resources :transactions, except: [:edit, :new]
       post '/plaidlogin', to: 'plaid#plaidlogin'
       post '/get-transactions', to: 'plaid#getTransactions'
       get '/transactions', to: 'transactions#index'
-      get '/budgets', to: 'budgets#index'
+      resources :budgets, except: [:edit, :new]
     end
   end
 
