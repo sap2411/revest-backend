@@ -7,6 +7,7 @@ class Api::V1::PlaidController < ApplicationController
       @access_token = Plaid.generate_access_token(token)
   
       if @access_token
+        current_user.update({access_token: @access_token, has_connection: true})
         render json: {
           access_token: @access_token
         }
@@ -19,9 +20,9 @@ class Api::V1::PlaidController < ApplicationController
     end
   
     def getTransactions
-      @transactions = Transaction.fetch_and_build(params[:access_token], current_user)
+      @transactions = Transaction.fetch_and_build((current_user.access_token), current_user)
       if @transactions
-        render json: { user: UserSerializer.new(current_user), transactions: TransactionSerializer.new(current_user.transactions)}, status: :created
+        render json: { user: UserSerializer.new(current_user)}, status: :created
       else 
         render json: {
           status: 500,
