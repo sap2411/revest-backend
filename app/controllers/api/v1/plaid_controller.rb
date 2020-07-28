@@ -22,7 +22,7 @@ class Api::V1::PlaidController < ApplicationController
     def getTransactions
       @transactions = Transaction.fetch_and_build((current_user.access_token), current_user)
       if @transactions
-        render json: { user: UserSerializer.new(current_user), transactions: TransactionSerializer.new(current_user.transactions)}, status: :created
+        render json: { user: UserSerializer.new(current_user)}, status: :created
       else 
         render json: {
           status: 500,

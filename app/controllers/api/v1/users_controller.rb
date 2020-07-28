@@ -3,10 +3,8 @@ class Api::V1::UsersController < ApplicationController
  
     def profile
       
-      options = {
-        include: [:budgets, :transactions]
-      }
-      render json: { user: UserSerializer.new(current_user, options) }, status: :accepted
+
+      render json: { user: UserSerializer.new(current_user) }, status: :accepted
     end
    
     def create

@@ -18,7 +18,6 @@ class Transaction < ApplicationRecord
   end
 
   def self.fetch_and_build(token, user)
-    byebug
     last = (!!user.transactions.first ? user.transactions.first.date : (Date.today - MAX_DAYS))
     if user.transactions.length > 0
       destroy_old_transactions(user)
