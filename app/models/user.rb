@@ -28,10 +28,6 @@ class User < ApplicationRecord
     format: { with: PASSWORD_FORMAT }, 
     on: :update
 
-    def name
-        `#{self.first_name} #{self.last_name}`
-    end
-
     def buildBudgets
         budgets = self.calculate_budgets
         inc = 0;
@@ -41,7 +37,20 @@ class User < ApplicationRecord
         end
     end
 
+    def updateBudgets
+        self.budgets.each {|budget|
+            amount = (self.income * budget.category.percentage).round
+            if amount < budget.category.min
+                amount = budget.category.min
+            elsif amount > budget.category.max
+                amount = budget.category.max
+            end
+            budget.update({amount: amount})
+        }
+    end
+
     def calculate_budgets
+        # calculate what each budget should be set to based off the users income, the percent of income that should go to a category, and a min and max amount
         Category.all.map {|cat|
             budget = (self.income * cat.percentage).round
             if budget < cat.min

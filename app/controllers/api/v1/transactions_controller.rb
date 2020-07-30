@@ -1,5 +1,6 @@
 class Api::V1::TransactionsController < ApplicationController
     def index
+      # show all the transactions for a user
         transactions = current_user.transactions
         if transactions
           options = {
@@ -15,6 +16,7 @@ class Api::V1::TransactionsController < ApplicationController
     end
 
     def update
+      # update the budget association for a transaction
       transaction = Transaction.find(params[:id])
       transaction.update(transaction_params)
       if transaction.valid?
