@@ -1,11 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
+# seed categories to base a users budgets off of. Info was informed by research determining the average americans spends on categories. values added to venmo, interes, and misc added for error handling
 home = Category.create(name: "Home", min: 400.0, max: 5000.0, percentage: 0.31, tags: "Home Rent House Mortgage Utilities")
 food = Category.create(name: "Food", min: 150.0, max: 700.0, percentage: 0.12, tags: "Food and Drink Supermarkets and Groceries")
 insurance = Category.create(name: "Health and Insurance", min: 0.0, max: 1000.0, percentage: 0.095, tags: "Insurance Medical Health")

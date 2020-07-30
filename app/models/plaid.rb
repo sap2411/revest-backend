@@ -17,9 +17,7 @@ module Plaid
     exchange_token_response['access_token']
   end
 
-
   MAX_NUMBER_DAYS = 31
-
 
   def fetch(access_token, start_date = Date.today, last_date = (Date.today - MAX_NUMBER_DAYS))
     fetch_plaid(access_token, start_date, last_date)
@@ -31,19 +29,10 @@ module Plaid
     transactions = transaction_response.transactions
 
     while transactions.length < transaction_response['total_transactions']
-      transaction_response = client.transactions.get(access_token,
-                                                      last_date,
-                                                      start_date,
-                                                      offset: transactions.length)
+      transaction_response = client.transactions.get(access_token, last_date, start_date, offset: transactions.length)
       transactions += transaction_response.transactions
     end
     transactions
-  end
-
-  def fetch_by_dates_month(access_token, date)
-    beginning_of_month = Date.new(date.year, date.month, 1)
-    end_of_month = Date.new(date.year, date.month, -1)
-    fetch(access_token, end_of_month, beginning_of_month)
   end
 
   def client

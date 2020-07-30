@@ -4,12 +4,15 @@ class Api::V1::PlaidController < ApplicationController
   
     def plaidlogin 
       token = params[:token]
+      # exchange public token for access token
       @access_token = Plaid.generate_access_token(token)
   
       if @access_token
+        # save access token to user so they do not have to re-login to their bank
         current_user.update({access_token: @access_token, has_connection: true})
+        # never show the token client side
         render json: {
-          access_token: @access_token
+          access_token: "Created"
         }
       else
         render json: {
@@ -20,7 +23,7 @@ class Api::V1::PlaidController < ApplicationController
     end
   
     def getTransactions
-      @transactions = Transaction.fetch_and_build((current_user.access_token), current_user)
+      @transactions = Transaction.fetch_and_build(current_user)
       if @transactions
         render json: { user: UserSerializer.new(current_user)}, status: :created
       else 
