@@ -5,9 +5,9 @@ module Plaid
   module_function
   def default_client
     Plaid::Client.new(
-      env: :sandbox,
+      env: :development,
       client_id: ENV["PLAID_CLIENT_ID"],
-      secret: ENV["PLAID_SECRET"],
+      secret: ENV["PLAID_DEV_SECRET"],
       public_key: ENV["PLAID_PUBLIC_KEY"]
     )
   end
