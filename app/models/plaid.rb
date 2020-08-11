@@ -7,7 +7,7 @@ module Plaid
     Plaid::Client.new(
       env: :sandbox,
       client_id: ENV["PLAID_CLIENT_ID"],
-      secret: ENV["PLAID_SECRET"],
+      secret: ENV["PLAID_DEV_SECRET"],
       public_key: ENV["PLAID_PUBLIC_KEY"]
     )
   end
