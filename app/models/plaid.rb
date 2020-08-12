@@ -1,5 +1,6 @@
 require 'date'
-
+require 'aws-sdk'
+ 
 module Plaid
 
   module_function
