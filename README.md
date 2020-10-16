@@ -6,12 +6,42 @@ Revest is an application that analyses a users bank data, generates customized b
 
 ## Motivation
 
-I wanted to create an app that could encourage young professionals to take charge of their finances and concider investing. I had been learning a lot about these topics over the year by seeing other peoples financials used as examples for how to budget properly, and I wanted to give that ability to any user specifically. 
+I wanted to create an app that could encourage young professionals to take charge of their finances and consider investing. I had been learning a lot about these topics over the year by seeing other peoples financials used as examples for how to budget properly, and I wanted to give that ability to any user. 
+
+## Screenshots
+Home Page
+
+<img src="public/landing.png" width="800">
+
+Create Account
+
+<img src="public/signup.png" width="800">
+
+Connect Bank Account
+
+<img src="public/bankconnect.png" width="800">
+
+Track Your Spending
+
+<img src="public/budgets.png" width="800">
+
+Realize Potential Investment
+
+<img src="public/invest.png" width="800">
+
+Customize Budgets
+
+<img src="public/edit.png" width="800">
+
+Learn More On Investing
+
+<img src="public/resources.png" width="800">
+
 
 ## Technology Used
 
-- JS
-- Rails Router
+- JavaScript
+- Ruby on Rails
 - React
 - Bootstrap
 - Plaid
@@ -29,9 +59,18 @@ Users Can:
 
 ## Installation
 
-Clone the front-end, and run 'npm i && npm audit fix' then 'yarn start'
-
-Clone back-end repo, aquire an api secret key from Plaid and use it on line 10 of revest-backend/app/models/plaid.rb, run the following commands in order: bundle install, rails db:migrate, rails db:seed, rails s -p 3001.
+Clone the front-end, and run 
+```
+$ npm i && npm audit fix 
+$ yarn start
+```
+Clone back-end repo, aquire an api secret key from Plaid and use it on line 10 of revest-backend/app/models/plaid.rb, run the following commands in order: 
+```
+$ bundle install
+$ rails db:migrate 
+$ rails db:seed
+$ rails s -p 3001
+```
 
 ## Contributing
 
